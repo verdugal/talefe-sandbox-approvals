@@ -1,0 +1,21 @@
+# A build job, then a deploy job that waits for a required reviewer on the
+# "production" environment. Run it by hand (workflow_dispatch).
+name: sandbox-approvals
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo build && sleep 5
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo deploy && sleep 5
